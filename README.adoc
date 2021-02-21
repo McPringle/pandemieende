@@ -1,0 +1,14 @@
+= Pandemieende Schweiz und Liechtenstein
+Marcus Fihlon <marcus@fihlon.swiss>
+
+Der Quelltext der Webseite https://pandemieende.ch[pandemieende.ch].
+
+== Technologie
+
+Zum Einsatz kommen ausschliesslich HTML, CSS und JavaScript. Es handelt sich um eine statische Webseite, die keine serverseitigen Komponenten benötigt.
+
+== Lizenz
+
+image::https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png[link="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.de",alt="Creative Commons Lizenzvertrag"]
+
+Pandemieende Schweiz und Liechtenstein von https://fihlon.swiss/[Marcus Fihlon] ist lizenziert unter einer https://creativecommons.org/licenses/by-nc-sa/4.0/deed.de[Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz].
