@@ -1,0 +1,6 @@
+= Änderungsprotokoll
+
+Hier findest du Informationen zu den Änderungen auf der Webseite https://pandemieende.ch/[Pandemieende Schweiz und Liechtenstein].
+
+== 2021-02-21
+*  Erstveröffentlichung des Quelltextes auf GitHub.
