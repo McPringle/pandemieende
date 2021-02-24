@@ -1,8 +1,3 @@
-if (location.protocol !== 'https:' && !location.href.includes("://localhost"))
-{
-    location.href = 'https:' + location.href.substring(location.protocol.length);
-}
-
 const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
 const residents = 8606033 + 38650; // Schweiz und Liechtenstein (Stand 2019, Bundesamt für Statistik)
 
