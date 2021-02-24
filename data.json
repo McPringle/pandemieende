@@ -5,49 +5,65 @@
       "statusDate" : "2021-02-14",
       "vaccinationRate" : 1.18,
       "vaccinatedPersons" : 102390,
-      "administeredVaccineDoses" : 542848
+      "administeredVaccineDoses" : 542848,
+      "laboratoryConfirmedCases" : 543445,
+      "laboratoryConfirmedDeaths" : 9176
     },
     {
       "statusDate" : "2021-02-15",
       "vaccinationRate" : 1.24,
       "vaccinatedPersons" : 107118,
-      "administeredVaccineDoses" : 525334
+      "administeredVaccineDoses" : 525334,
+      "laboratoryConfirmedCases" : 544752,
+      "laboratoryConfirmedDeaths" : 9191
     },
     {
       "statusDate" : "2021-02-16",
       "vaccinationRate" : 1.30,
       "vaccinatedPersons" : 112527,
-      "administeredVaccineDoses" : 563073
+      "administeredVaccineDoses" : 563073,
+      "laboratoryConfirmedCases" : 545889,
+      "laboratoryConfirmedDeaths" : 9199
     },
     {
       "statusDate" : "2021-02-17",
       "vaccinationRate" : 1.60,
       "vaccinatedPersons" : 138016,
-      "administeredVaccineDoses" : 614066
+      "administeredVaccineDoses" : 614066,
+      "laboratoryConfirmedCases" : 547101,
+      "laboratoryConfirmedDeaths" : 9207
     },
     {
       "statusDate" : "2021-02-18",
       "vaccinationRate" : 1.66,
       "vaccinatedPersons" : 143703,
-      "administeredVaccineDoses" : 625196
+      "administeredVaccineDoses" : 625196,
+      "laboratoryConfirmedCases" : 548110,
+      "laboratoryConfirmedDeaths" : 9217
     },
     {
       "statusDate" : "2021-02-19",
       "vaccinationRate" : 1.73,
       "vaccinatedPersons" : 149719,
-      "administeredVaccineDoses" : 635089
+      "administeredVaccineDoses" : 635089,
+      "laboratoryConfirmedCases" : 549200,
+      "laboratoryConfirmedDeaths" : 9226
     },
     {
       "statusDate" : "2021-02-20",
       "vaccinationRate" : 1.74,
       "vaccinatedPersons" : 150831,
-      "administeredVaccineDoses" : 636780
+      "administeredVaccineDoses" : 636780,
+      "laboratoryConfirmedCases" : 549894,
+      "laboratoryConfirmedDeaths" : 9237
     },
     {
       "statusDate" : "2021-02-21",
       "vaccinationRate" : 2.01,
       "vaccinatedPersons" : 173407,
-      "administeredVaccineDoses" : 675556
+      "administeredVaccineDoses" : 675556,
+      "laboratoryConfirmedCases" : 550422,
+      "laboratoryConfirmedDeaths" : 9244
     }
   ]
 }
