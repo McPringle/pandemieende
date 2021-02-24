@@ -1,3 +1,8 @@
+if (location.protocol !== 'https:' && !location.href.includes("://localhost"))
+{
+    location.href = 'https:' + location.href.substring(location.protocol.length);
+}
+
 const JAN = 0;
 const FEB = 1;
 const MAR = 2;
