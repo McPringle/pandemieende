@@ -39,8 +39,8 @@ function toDurationString(numberOfDays) {
 }
 
 function updateChart(vaccinationDataHistory) {
-    const vaccinationStatusDates = vaccinationDataHistory.map(function (row) { return row.statusDate; });
-    const vaccinationDataPercent = vaccinationDataHistory.map(function (row) { return row.vaccinationRate; });
+    const vaccinationStatusDates = vaccinationDataHistory.map(function (row) { return row['statusDate']; });
+    const vaccinationDataPercent = vaccinationDataHistory.map(function (row) { return row['vaccinationRate']; });
     const threshold = new Array(vaccinationDataPercent.length).fill(70);
     const ctx = document.getElementById('vaccinationChart').getContext('2d');
     new Chart(ctx, {
@@ -75,18 +75,18 @@ function updateChart(vaccinationDataHistory) {
 function updateTable(vaccinationDataHistory) {
     const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
 
-    const statusDate = toDate(vaccinationDataHistory[vaccinationDataHistory.length - 1].statusDate);
-    const administeredVaccineDoses = vaccinationDataHistory[vaccinationDataHistory.length - 1].administeredVaccineDoses;
+    const statusDate = toDate(vaccinationDataHistory[vaccinationDataHistory.length - 1]['statusDate']);
+    const administeredVaccineDoses = vaccinationDataHistory[vaccinationDataHistory.length - 1]['administeredVaccineDoses'];
 
     const residents = 8606033 + 38650; // Schweiz und Liechtenstein (Stand 2019, Bundesamt für Statistik)
     const toBeVaccinated = Math.round(residents * .7);
-    const vaccinatedPersons = vaccinationDataHistory[vaccinationDataHistory.length - 1].vaccinatedPersons;
+    const vaccinatedPersons = vaccinationDataHistory[vaccinationDataHistory.length - 1]['vaccinatedPersons'];
     const stillToBeVaccinated = toBeVaccinated - vaccinatedPersons;
     const stillRequiredVaccineDoses = stillToBeVaccinated * 2;
 
     const vaccinationRateDays = 7;
     const vaccinationRateDaysIndex = vaccinationRateDays + 1;
-    const administeredVaccineDosesBefore = vaccinationDataHistory[vaccinationDataHistory.length - vaccinationRateDaysIndex].administeredVaccineDoses;
+    const administeredVaccineDosesBefore = vaccinationDataHistory[vaccinationDataHistory.length - vaccinationRateDaysIndex]['administeredVaccineDoses'];
     const vaccinationRateLast = Math.round((administeredVaccineDoses - administeredVaccineDosesBefore) / vaccinationRateDays);
 
     const deviation = Math.ceil(Math.abs(Date.now() - statusDate) / oneDay) - 1;
@@ -109,12 +109,12 @@ function updateTable(vaccinationDataHistory) {
 
     const statusDateElements = document.getElementsByClassName("statusDate");
     for (let i = 0; i < statusDateElements.length; i++) {
-        statusDateElements[i].innerHTML = vaccinationDataHistory[vaccinationDataHistory.length - 1].statusDate;
+        statusDateElements[i].innerHTML = vaccinationDataHistory[vaccinationDataHistory.length - 1]['statusDate'];
     }
 
     const statusDateBeforeElements = document.getElementsByClassName("statusDateBefore");
     for (let i = 0; i < statusDateBeforeElements.length; i++) {
-        statusDateBeforeElements[i].innerHTML = vaccinationDataHistory[vaccinationDataHistory.length - vaccinationRateDaysIndex].statusDate;
+        statusDateBeforeElements[i].innerHTML = vaccinationDataHistory[vaccinationDataHistory.length - vaccinationRateDaysIndex]['statusDate'];
     }
 }
 
