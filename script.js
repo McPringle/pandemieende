@@ -72,7 +72,7 @@ function updateChart(vaccinationDataHistory) {
     });
 }
 
-function updateTable(vaccinationDataHistory) {
+function updateTable(vaccinationDataHistory, lastUpdate) {
     const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
 
     const statusDate = toDate(vaccinationDataHistory[vaccinationDataHistory.length - 1]['statusDate']);
@@ -116,6 +116,8 @@ function updateTable(vaccinationDataHistory) {
     for (let i = 0; i < statusDateBeforeElements.length; i++) {
         statusDateBeforeElements[i].innerHTML = vaccinationDataHistory[vaccinationDataHistory.length - vaccinationRateDaysIndex]['statusDate'];
     }
+
+    document.getElementById("lastUpdate").innerHTML = lastUpdate;
 }
 
 function loadVaccineData() {
@@ -126,8 +128,8 @@ function loadVaccineData() {
         const status = xhr.status;
         if (status === 200) {
             const vaccinationData = xhr.response;
-            updateChart(vaccinationData.history);
-            updateTable(vaccinationData.history);
+            updateChart(vaccinationData['history']);
+            updateTable(vaccinationData['history'], vaccinationData['lastUpdate']);
         } else {
             alert('Hoppla, ich konnte die Impfdaten nicht vom Server laden!\nFehlercode: ' + status);
         }
