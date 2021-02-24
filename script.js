@@ -3,60 +3,6 @@ if (location.protocol !== 'https:' && !location.href.includes("://localhost"))
     location.href = 'https:' + location.href.substring(location.protocol.length);
 }
 
-const vaccinationData = [
-    {
-        "statusDate" : "2021-02-14",
-        "vaccinationRate" : 1.18,
-        "vaccinatedPersons" : 102390,
-        "administeredVaccineDoses" : 542848
-    },
-    {
-        "statusDate" : "2021-02-15",
-        "vaccinationRate" : 1.24,
-        "vaccinatedPersons" : 107118,
-        "administeredVaccineDoses" : 525334
-    },
-    {
-        "statusDate" : "2021-02-16",
-        "vaccinationRate" : 1.30,
-        "vaccinatedPersons" : 112527,
-        "administeredVaccineDoses" : 563073
-    },
-    {
-        "statusDate" : "2021-02-17",
-        "vaccinationRate" : 1.60,
-        "vaccinatedPersons" : 138016,
-        "administeredVaccineDoses" : 614066
-    },
-    {
-        "statusDate" : "2021-02-18",
-        "vaccinationRate" : 1.66,
-        "vaccinatedPersons" : 143703,
-        "administeredVaccineDoses" : 625196
-    },
-    {
-        "statusDate" : "2021-02-19",
-        "vaccinationRate" : 1.73,
-        "vaccinatedPersons" : 149719,
-        "administeredVaccineDoses" : 635089
-    },
-    {
-        "statusDate" : "2021-02-20",
-        "vaccinationRate" : 1.74,
-        "vaccinatedPersons" : 150831,
-        "administeredVaccineDoses" : 636780
-    },
-    {
-        "statusDate" : "2021-02-21",
-        "vaccinationRate" : 2.01,
-        "vaccinatedPersons" : 173407,
-        "administeredVaccineDoses" : 675556
-    }
-];
-
-const vaccinationStatusDates = vaccinationData.map(function (row) { return row.statusDate; });
-const vaccinationDataPercent = vaccinationData.map(function (row) { return row.vaccinationRate; });
-
 function toDate(dateString) {
     return new Date(dateString + 'T00:00:00.000Z');
 }
@@ -92,7 +38,9 @@ function toDurationString(numberOfDays) {
     return years + " " + yearText + ", " + months + " " + monthText + ", " + days + " " + dayText;
 }
 
-function updateChart() {
+function updateChart(vaccinationDataHistory) {
+    const vaccinationStatusDates = vaccinationDataHistory.map(function (row) { return row.statusDate; });
+    const vaccinationDataPercent = vaccinationDataHistory.map(function (row) { return row.vaccinationRate; });
     const threshold = new Array(vaccinationDataPercent.length).fill(70);
     const ctx = document.getElementById('vaccinationChart').getContext('2d');
     new Chart(ctx, {
@@ -124,21 +72,21 @@ function updateChart() {
     });
 }
 
-function updateTable() {
+function updateTable(vaccinationDataHistory) {
     const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
 
-    const statusDate = toDate(vaccinationData[vaccinationData.length - 1].statusDate);
-    const administeredVaccineDoses = vaccinationData[vaccinationData.length - 1].administeredVaccineDoses;
+    const statusDate = toDate(vaccinationDataHistory[vaccinationDataHistory.length - 1].statusDate);
+    const administeredVaccineDoses = vaccinationDataHistory[vaccinationDataHistory.length - 1].administeredVaccineDoses;
 
     const residents = 8606033 + 38650; // Schweiz und Liechtenstein (Stand 2019, Bundesamt für Statistik)
     const toBeVaccinated = Math.round(residents * .7);
-    const vaccinatedPersons = vaccinationData[vaccinationData.length - 1].vaccinatedPersons;
+    const vaccinatedPersons = vaccinationDataHistory[vaccinationDataHistory.length - 1].vaccinatedPersons;
     const stillToBeVaccinated = toBeVaccinated - vaccinatedPersons;
     const stillRequiredVaccineDoses = stillToBeVaccinated * 2;
 
     const vaccinationRateDays = 7;
     const vaccinationRateDaysIndex = vaccinationRateDays + 1;
-    const administeredVaccineDosesBefore = vaccinationData[vaccinationData.length - vaccinationRateDaysIndex].administeredVaccineDoses;
+    const administeredVaccineDosesBefore = vaccinationDataHistory[vaccinationDataHistory.length - vaccinationRateDaysIndex].administeredVaccineDoses;
     const vaccinationRateLast = Math.round((administeredVaccineDoses - administeredVaccineDosesBefore) / vaccinationRateDays);
 
     const deviation = Math.ceil(Math.abs(Date.now() - statusDate) / oneDay) - 1;
@@ -161,16 +109,32 @@ function updateTable() {
 
     const statusDateElements = document.getElementsByClassName("statusDate");
     for (let i = 0; i < statusDateElements.length; i++) {
-        statusDateElements[i].innerHTML = vaccinationData[vaccinationData.length - 1].statusDate;
+        statusDateElements[i].innerHTML = vaccinationDataHistory[vaccinationDataHistory.length - 1].statusDate;
     }
 
     const statusDateBeforeElements = document.getElementsByClassName("statusDateBefore");
     for (let i = 0; i < statusDateBeforeElements.length; i++) {
-        statusDateBeforeElements[i].innerHTML = vaccinationData[vaccinationData.length - vaccinationRateDaysIndex].statusDate;
+        statusDateBeforeElements[i].innerHTML = vaccinationDataHistory[vaccinationDataHistory.length - vaccinationRateDaysIndex].statusDate;
     }
 }
 
+function loadVaccineData() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'data.json', true);
+    xhr.responseType = 'json';
+    xhr.onload = function() {
+        const status = xhr.status;
+        if (status === 200) {
+            const vaccinationData = xhr.response;
+            updateChart(vaccinationData.history);
+            updateTable(vaccinationData.history);
+        } else {
+            alert('Hoppla, ich konnte die Impfdaten nicht vom Server laden!\nFehlercode: ' + status);
+        }
+    };
+    xhr.send();
+}
+
 window.onload = function () {
-    updateChart();
-    updateTable();
+    loadVaccineData();
 }
