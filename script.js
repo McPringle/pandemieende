@@ -3,35 +3,63 @@ if (location.protocol !== 'https:' && !location.href.includes("://localhost"))
     location.href = 'https:' + location.href.substring(location.protocol.length);
 }
 
-const JAN = 0;
-const FEB = 1;
-const MAR = 2;
-const APR = 3;
-const MAI = 4;
-const JUN = 5
-const JUL = 6;
-const AUG = 7;
-const SEP = 8;
-const OKT = 9;
-const NOV = 10;
-const DEZ = 11;
-
-const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
-
 const vaccinationData = [
-    // Datum, vollständig geimpft Prozent, Absolut, verabreichte Dosen
-    [ new Date(2021, FEB, 14), 1.18, 102390, 542848 ],
-    [ new Date(2021, FEB, 15), 1.24, 107118, 525334 ],
-    [ new Date(2021, FEB, 16), 1.30, 112527, 563073 ],
-    [ new Date(2021, FEB, 17), 1.60, 138016, 614066 ],
-    [ new Date(2021, FEB, 18), 1.66, 143703, 625196 ],
-    [ new Date(2021, FEB, 19), 1.73, 149719, 635089 ],
-    [ new Date(2021, FEB, 20), 1.74, 150831, 636780 ],
-    [ new Date(2021, FEB, 21), 2.01, 173407, 675556 ],
+    {
+        "statusDate" : "2021-02-14",
+        "vaccinationRate" : 1.18,
+        "vaccinatedPersons" : 102390,
+        "administeredVaccineDoses" : 542848
+    },
+    {
+        "statusDate" : "2021-02-15",
+        "vaccinationRate" : 1.24,
+        "vaccinatedPersons" : 107118,
+        "administeredVaccineDoses" : 525334
+    },
+    {
+        "statusDate" : "2021-02-16",
+        "vaccinationRate" : 1.30,
+        "vaccinatedPersons" : 112527,
+        "administeredVaccineDoses" : 563073
+    },
+    {
+        "statusDate" : "2021-02-17",
+        "vaccinationRate" : 1.60,
+        "vaccinatedPersons" : 138016,
+        "administeredVaccineDoses" : 614066
+    },
+    {
+        "statusDate" : "2021-02-18",
+        "vaccinationRate" : 1.66,
+        "vaccinatedPersons" : 143703,
+        "administeredVaccineDoses" : 625196
+    },
+    {
+        "statusDate" : "2021-02-19",
+        "vaccinationRate" : 1.73,
+        "vaccinatedPersons" : 149719,
+        "administeredVaccineDoses" : 635089
+    },
+    {
+        "statusDate" : "2021-02-20",
+        "vaccinationRate" : 1.74,
+        "vaccinatedPersons" : 150831,
+        "administeredVaccineDoses" : 636780
+    },
+    {
+        "statusDate" : "2021-02-21",
+        "vaccinationRate" : 2.01,
+        "vaccinatedPersons" : 173407,
+        "administeredVaccineDoses" : 675556
+    }
 ];
 
-const vaccinationDataStatusDates = vaccinationData.map(function (row) { return toDateString(row[0]); });
-const vaccinationDataPercent = vaccinationData.map(function (row) { return row[1]; });
+const vaccinationStatusDates = vaccinationData.map(function (row) { return row.statusDate; });
+const vaccinationDataPercent = vaccinationData.map(function (row) { return row.vaccinationRate; });
+
+function toDate(dateString) {
+    return new Date(dateString + 'T00:00:00.000Z');
+}
 
 function toDateString(date) {
     return ('0' + date.getDate()).slice(-2) + '.'
@@ -64,18 +92,13 @@ function toDurationString(numberOfDays) {
     return years + " " + yearText + ", " + months + " " + monthText + ", " + days + " " + dayText;
 }
 
-function getColor(value, light){
-    const hue = ((value)*120).toString(10);
-    return ["hsl(",hue,",70%,",light,"%)"].join("");
-}
-
 function updateChart() {
     const threshold = new Array(vaccinationDataPercent.length).fill(70);
     const ctx = document.getElementById('vaccinationChart').getContext('2d');
-    const vaccinationChart = new Chart(ctx, {
+    new Chart(ctx, {
         type: 'line',
         data: {
-            labels: vaccinationDataStatusDates,
+            labels: vaccinationStatusDates,
             datasets: [
                 { label: 'vollständig geimpft', data: vaccinationDataPercent, borderColor: '#dc1c13', borderWidth: 3, fill: false },
                 { label: 'Herdenimmunität (70%)', data: threshold, borderColor: '#69f0ae', borderWidth: 1, fill: false }
@@ -102,18 +125,19 @@ function updateChart() {
 }
 
 function updateTable() {
-    const statusDate = vaccinationData[vaccinationData.length - 1][0];
-    const administeredVaccineDoses = vaccinationData[vaccinationData.length - 1][3];
+    const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
+
+    const statusDate = toDate(vaccinationData[vaccinationData.length - 1].statusDate);
+    const administeredVaccineDoses = vaccinationData[vaccinationData.length - 1].administeredVaccineDoses;
 
     const residents = 8606033 + 38650; // Schweiz und Liechtenstein (Stand 2019, Bundesamt für Statistik)
     const toBeVaccinated = Math.round(residents * .7);
-    const vaccinatedPersons = vaccinationData[vaccinationData.length - 1][2];
+    const vaccinatedPersons = vaccinationData[vaccinationData.length - 1].vaccinatedPersons;
     const stillToBeVaccinated = toBeVaccinated - vaccinatedPersons;
     const stillRequiredVaccineDoses = stillToBeVaccinated * 2;
 
-    const statusDateBefore = vaccinationData[vaccinationData.length - 8][0];
-    const administeredVaccineDosesBefore = vaccinationData[vaccinationData.length - 8][3];
-    const vaccinationRateDays = Math.round(Math.abs((statusDateBefore - statusDate) / oneDay));
+    const vaccinationRateDays = 8;
+    const administeredVaccineDosesBefore = vaccinationData[vaccinationData.length - vaccinationRateDays].administeredVaccineDoses;
     const vaccinationRateLast = Math.round((administeredVaccineDoses - administeredVaccineDosesBefore) / vaccinationRateDays);
 
     const deviation = Math.ceil(Math.abs(Date.now() - statusDate) / oneDay) - 1;
@@ -136,12 +160,12 @@ function updateTable() {
 
     const statusDateElements = document.getElementsByClassName("statusDate");
     for (let i = 0; i < statusDateElements.length; i++) {
-        statusDateElements[i].innerHTML = vaccinationDataStatusDates[vaccinationDataStatusDates.length - 1];
+        statusDateElements[i].innerHTML = vaccinationData[vaccinationData.length - 1].statusDate;
     }
 
     const statusDateBeforeElements = document.getElementsByClassName("statusDateBefore");
     for (let i = 0; i < statusDateBeforeElements.length; i++) {
-        statusDateBeforeElements[i].innerHTML = toDateString(statusDateBefore);
+        statusDateBeforeElements[i].innerHTML = vaccinationData[vaccinationData.length - vaccinationRateDays].statusDate;
     }
 }
 
