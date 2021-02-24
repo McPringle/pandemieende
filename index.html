@@ -9,105 +9,20 @@
     </script>
     <title>Pandemieende Schweiz und Liechtenstein</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta property="og:site_name" content="pandemieende.ch"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:site_name" content="pandemieende.ch" />
     <meta property="og:title" content="Pandemieende Schweiz und Liechtenstein" />
     <meta property="og:description" content="Wann ist das Ende der Corona-Pandemie in der Schweiz und Liechtenstein?" />
-    <meta property="og:image:secure_url" itemprop="image" content="icon.png"/>
+    <meta property="og:image:secure_url" itemprop="image" content="icon.png" />
     <meta property="og:type" content="website" />
-    <meta name="keywords" content="corona, coronavirus, covid, covid-19, SARS-CoV-2, ende, pandemie, pandemieende, impfen, impfrate, Durchimpfung, Pandemiedauer, Schweiz"/>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-    <link rel="icon" type="image/png" href="icon.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="icon.png" sizes="96x96">
+    <meta name="keywords" content="corona, coronavirus, covid, covid-19, SARS-CoV-2, ende, pandemie, pandemieende, impfen, impfrate, Durchimpfung, Pandemiedauer, Schweiz" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/png" href="icon.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="icon.png" sizes="96x96" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
-    <style type="text/css">
-        body { font-family: Roboto, sans-serif; }
-        .main { padding-top: 8vw; padding-bottom: 2vw; }
-        .verylarge { font-size: 10vw; }
-        .large { font-size: 4vw; }
-        .middle { font-size: 2vw; }
-        .subtext { padding: 32px; }
-        .footnote { color: #888888; font-size: 12px; }
-        .footer { padding: 32px; }
-        .links { padding: 32px; }
-        .stand { padding-bottom: 16px; }
-        .fngroup { padding-top: 32px; }
-        #forkme {
-            position: absolute;
-            top: 0;
-            right: 0;
-            border: 0;
-            z-index:100;
-        }
-        #myProgress {
-            width: 100%;
-            background-color: #dddddd;
-            position: relative;
-            height: 30px;
-        }
-        #progressBar {
-            width: 0;
-            height: 30px;
-            background-color: #dddddd;
-            text-align: center; /* To center it horizontally (if you want) */
-            line-height: 30px; /* To center it vertically */
-            color: white;
-            position: absolute;
-        }
-        #heardImmune {
-            width: 30%;
-            height: 30px;
-            background-color: #000000;
-            line-height: 30px;
-            left: 70%;
-            position: absolute;
-            color: forestgreen;
-            text-align: left;
-            margin-left: 10px;
-            background-image: linear-gradient(to right, #dddddd, #ffffff);
-        }
-        #vaccinatedProgressBar {
-            width: 10%;
-            height: 30px;
-            background-color: yellow;
-            line-height: 30px;
-            position: absolute;
-            color: #000000;
-            text-align: right;
-            display: none;
-        }
-        #bar {
-            width: 1px;
-            height: 30px;
-            background-color: forestgreen;
-            position: absolute;
-            left: 70%;
-        }
-        #vaccinationChart {
-            padding-bottom: 32px;
-        }
-        table {
-            border: 2px dashed #dddddd;
-            border-radius: 10px;
-        }
-        table.footnote {
-            border: none;
-        }
-        th {
-            font-weight: normal;
-            text-align: right;
-            vertical-align: top;
-        }
-        td {
-            vertical-align: top;
-            text-align: left;
-        }
-        @media only screen and (max-width: 600px) {
-            .verylarge { font-size: 18vw}
-            .large { font-size: 8vw}
-        }
-    </style>
+    <script src="script.js"></script>
 </head>
 <body>
 <a href="https://github.com/McPringle/pandemieende"><img id="forkme" src="forkme.png" alt="Fork me on GitHub"></a>
@@ -130,77 +45,6 @@
 <div class="w3-content w3-center stand">
     <div>Entwicklung der Immunitätsrate</div>
     <canvas id="vaccinationChart"></canvas>
-    <script>
-        function toDateString(date) {
-            return ('0' + date.getDate()).slice(-2) + '.'
-                + ('0' + (date.getMonth()+1)).slice(-2) + '.'
-                + date.getFullYear();
-        }
-
-        function toNumberString(number) {
-            return typeof number == 'number' ? number.toLocaleString("de-CH") : number;
-        }
-
-        const JAN = 0;
-        const FEB = 1;
-        const MAR = 2;
-        const APR = 3;
-        const MAI = 4;
-        const JUN = 5
-        const JUL = 6;
-        const AUG = 7;
-        const SEP = 8;
-        const OKT = 9;
-        const NOV = 10;
-        const DEZ = 11;
-
-        const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
-
-        const vaccinationData = [
-            // Datum, vollständig geimpft Prozent, Absolut, verabreichte Dosen
-            [ new Date(2021, FEB, 14), 1.18, 102390, 542848 ],
-            [ new Date(2021, FEB, 15), 1.24, 107118, 525334 ],
-            [ new Date(2021, FEB, 16), 1.30, 112527, 563073 ],
-            [ new Date(2021, FEB, 17), 1.60, 138016, 614066 ],
-            [ new Date(2021, FEB, 18), 1.66, 143703, 625196 ],
-            [ new Date(2021, FEB, 19), 1.73, 149719, 635089 ],
-            [ new Date(2021, FEB, 20), 1.74, 150831, 636780 ],
-            [ new Date(2021, FEB, 21), 2.01, 173407, 675556 ],
-        ];
-
-        const vaccinationDataStatusDates = vaccinationData.map(function (row) { return toDateString(row[0]); });
-        const vaccinationDataPercent = vaccinationData.map(function (row) { return row[1]; });
-
-        const threshold = new Array(vaccinationDataPercent.length).fill(70);
-        const ctx = document.getElementById('vaccinationChart').getContext('2d');
-        const vaccinationChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: vaccinationDataStatusDates,
-                datasets: [
-                    { label: 'vollständig geimpft', data: vaccinationDataPercent, borderColor: '#dc1c13', borderWidth: 3, fill: false },
-                    { label: 'Herdenimmunität (70%)', data: threshold, borderColor: '#69f0ae', borderWidth: 1, fill: false }
-                ]
-            },
-            options: {
-                title: {
-                    display: false
-                },
-                legend: {
-                    display: true
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                            suggestedMax: 100
-                        }
-                    }]
-                },
-                responsive: true,
-            }
-        });
-    </script>
 </div>
 <div class="w3-content w3-center stand">
     <div>Diese Hochrechnung basiert auf folgenden Daten</div>
@@ -266,80 +110,4 @@
     </div>
 </footer>
 </body>
-<script type="text/javascript">
-
-    function getColor(value, light){
-        let hue=((value)*120).toString(10);
-        return ["hsl(",hue,",70%,",light,"%)"].join("");
-    }
-
-    function toDurationString(numberOfDays) {
-        let years = 0;
-        while (numberOfDays >= 365) {
-            years++;
-            numberOfDays -= 365;
-        }
-        const yearText = years === 1 ? "Jahr" : "Jahre";
-
-        let months = 0;
-        while (numberOfDays >= 30) {
-            months++;
-            numberOfDays -= 30;
-        }
-        const monthText = months === 1 ? "Monat" : "Monate";
-
-        let days = numberOfDays;
-        const dayText = days === 1 ? "Tag" : "Tage";
-
-        return years + " " + yearText + ", " + months + " " + monthText + ", " + days + " " + dayText;
-    }
-
-    const statusDate = vaccinationData[vaccinationData.length - 1][0];
-    const administeredVaccineDoses = vaccinationData[vaccinationData.length - 1][3];
-
-    const residents = 8606033 + 38650; // Schweiz und Liechtenstein (Stand 2019, Bundesamt für Statistik)
-    const toBeVaccinated = Math.round(residents * .7);
-    const vaccinatedPersons = vaccinationData[vaccinationData.length - 1][2];
-    const stillToBeVaccinated = toBeVaccinated - vaccinatedPersons;
-    const stillRequiredVaccineDoses = stillToBeVaccinated * 2;
-
-    const statusDateBefore = vaccinationData[vaccinationData.length - 8][0];
-    const administeredVaccineDosesBefore = vaccinationData[vaccinationData.length - 8][3];
-    const vaccinationRateDays = Math.round(Math.abs((statusDateBefore - statusDate) / oneDay));
-    const vaccinationRateLast = Math.round((administeredVaccineDoses - administeredVaccineDosesBefore) / vaccinationRateDays);
-
-    const immunePercent = vaccinationData[vaccinationData.length - 1][1];
-    const deviation = Math.ceil(Math.abs(Date.now() - statusDate) / oneDay) - 1;
-    const daysToGo = Math.round(stillRequiredVaccineDoses / vaccinationRateLast) - deviation;
-    const endDate = new Date().setDate(new Date().getDate() + daysToGo);
-
-    document.getElementById("endDate").innerHTML = toDateString(new Date(endDate));
-    document.getElementById("daysToGo").innerHTML = toNumberString(daysToGo);
-    document.getElementById("daysToGoText").innerHTML = toDurationString(daysToGo);
-
-    document.getElementById("progressBar").style.backgroundColor = getColor(immunePercent * .01, 50);
-    document.getElementById("progressBar").style.width = (immunePercent) + "%";
-    document.getElementById("progressBar").innerHTML = (immunePercent).toFixed(2) + "%";
-
-    document.getElementById("residents").innerHTML = toNumberString(residents);
-    document.getElementById("toBeVaccinated").innerHTML = toNumberString(toBeVaccinated);
-    document.getElementById("vaccinatedPersons").innerHTML = toNumberString(vaccinatedPersons);
-    document.getElementById("vaccinationRateLast").innerHTML = toNumberString(vaccinationRateLast);
-
-    const vaccinationRateDaysElements = document.getElementsByClassName("vaccinationRateDays");
-    for (let i = 0; i < vaccinationRateDaysElements.length; i++) {
-        vaccinationRateDaysElements[i].innerHTML = toNumberString(vaccinationRateDays);
-    }
-
-    const statusDateElements = document.getElementsByClassName("statusDate");
-    for (let i = 0; i < statusDateElements.length; i++) {
-        statusDateElements[i].innerHTML = vaccinationDataStatusDates[vaccinationDataStatusDates.length - 1];
-    }
-
-    const statusDateBeforeElements = document.getElementsByClassName("statusDateBefore");
-    for (let i = 0; i < statusDateBeforeElements.length; i++) {
-        statusDateBeforeElements[i].innerHTML = toDateString(statusDateBefore);
-    }
-
-</script>
 </html>
