@@ -1,5 +1,5 @@
 body { font-family: Roboto, sans-serif; }
-.main { padding-top: 8vw; padding-bottom: 2vw; }
+.main { padding-top: 8vw; }
 .verylarge { font-size: 10vw; }
 .large { font-size: 4vw; }
 .middle { font-size: 2vw; }
@@ -9,6 +9,7 @@ body { font-family: Roboto, sans-serif; }
 .links { padding: 32px; }
 .stand { padding-bottom: 16px; }
 .fngroup { padding-top: 32px; }
+
 #forkme {
     position: absolute;
     top: 0;
@@ -16,69 +17,31 @@ body { font-family: Roboto, sans-serif; }
     border: 0;
     z-index:100;
 }
-#myProgress {
-    width: 100%;
-    background-color: #dddddd;
-    position: relative;
-    height: 30px;
-}
-#progressBar {
-    width: 0;
-    height: 30px;
-    background-color: #dddddd;
-    text-align: center; /* To center it horizontally (if you want) */
-    line-height: 30px; /* To center it vertically */
-    color: white;
-    position: absolute;
-}
-#heardImmune {
-    width: 30%;
-    height: 30px;
-    background-color: #000000;
-    line-height: 30px;
-    left: 70%;
-    position: absolute;
-    color: forestgreen;
-    text-align: left;
-    margin-left: 10px;
-    background-image: linear-gradient(to right, #dddddd, #ffffff);
-}
-#vaccinatedProgressBar {
-    width: 10%;
-    height: 30px;
-    background-color: yellow;
-    line-height: 30px;
-    position: absolute;
-    color: #000000;
-    text-align: right;
-    display: none;
-}
-#bar {
-    width: 1px;
-    height: 30px;
-    background-color: forestgreen;
-    position: absolute;
-    left: 70%;
-}
+
 #vaccinationChart {
     padding-bottom: 32px;
 }
+
 table {
     border: 2px dashed #dddddd;
     border-radius: 10px;
 }
+
 table.footnote {
     border: none;
 }
+
 th {
     font-weight: normal;
     text-align: right;
     vertical-align: top;
 }
+
 td {
     vertical-align: top;
     text-align: left;
 }
+
 @media only screen and (max-width: 600px) {
     .verylarge { font-size: 18vw}
     .large { font-size: 8vw}

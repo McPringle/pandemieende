@@ -64,13 +64,6 @@ function getColor(value, light){
     return ["hsl(",hue,",70%,",light,"%)"].join("");
 }
 
-function updateProgressBar() {
-    const immunePercent = vaccinationData[vaccinationData.length - 1][1];
-    document.getElementById("progressBar").style.backgroundColor = getColor(immunePercent * .01, 50);
-    document.getElementById("progressBar").style.width = (immunePercent) + "%";
-    document.getElementById("progressBar").innerHTML = (immunePercent).toFixed(2) + "%";
-}
-
 function updateChart() {
     const threshold = new Array(vaccinationDataPercent.length).fill(70);
     const ctx = document.getElementById('vaccinationChart').getContext('2d');
@@ -148,7 +141,6 @@ function updateTable() {
 }
 
 window.onload = function () {
-    updateProgressBar();
     updateChart();
     updateTable();
 }
