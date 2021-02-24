@@ -22,6 +22,10 @@ body { font-family: Roboto, sans-serif; }
     padding-bottom: 32px;
 }
 
+hr {
+    border-top: 2px dashed #dddddd;
+}
+
 table {
     border: 2px dashed #dddddd;
     border-radius: 10px;
