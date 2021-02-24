@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <link rel="icon" type="image/png" href="icon.png" sizes="32x32">
     <link rel="icon" type="image/png" href="icon.png" sizes="96x96">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
     <style type="text/css">
         body { font-family: Roboto, sans-serif; }
         .main { padding-top: 8vw; padding-bottom: 2vw; }
@@ -76,19 +77,15 @@
             text-align: right;
             display: none;
         }
-        #vaccinatedBar {
-            width: 1px;
-            height: 30px;
-            background-color: yellow;
-            position: absolute;
-            left: 0;
-        }
         #bar {
             width: 1px;
             height: 30px;
             background-color: forestgreen;
             position: absolute;
             left: 70%;
+        }
+        #vaccinationChart {
+            padding-bottom: 32px;
         }
         table {
             border: 2px dashed #dddddd;
@@ -121,18 +118,92 @@
         <div class="middle">Voraussichtlich noch <span class="large"><span id="daysToGo"></span> Tage</span></div>
         <div class="middle">≙ <span id="daysToGoText"></span></div>
         <div class="subtext">bis eine landesweite Immunität von 70% erreicht ist. *</div>
-        <div>Immunitätsrate **</div>
+        <div>Aktuelle Immunitätsrate</div>
         <div id="myProgress">
             <div id="vaccinatedProgressBar">test</div>
             <div id="progressBar"></div>
-            <div id="vaccinatedBar"></div>
             <div id="heardImmune">70%</div>
             <div id="bar"></div>
         </div>
     </div>
 </header>
 <div class="w3-content w3-center stand">
-    <div>Diese Hochrechnung basiert auf folgenden Daten und Annahmen:</div>
+    <div>Entwicklung der Immunitätsrate</div>
+    <canvas id="vaccinationChart"></canvas>
+    <script>
+        function toDateString(date) {
+            return ('0' + date.getDate()).slice(-2) + '.'
+                + ('0' + (date.getMonth()+1)).slice(-2) + '.'
+                + date.getFullYear();
+        }
+
+        function toNumberString(number) {
+            return typeof number == 'number' ? number.toLocaleString("de-CH") : number;
+        }
+
+        const JAN = 0;
+        const FEB = 1;
+        const MAR = 2;
+        const APR = 3;
+        const MAI = 4;
+        const JUN = 5
+        const JUL = 6;
+        const AUG = 7;
+        const SEP = 8;
+        const OKT = 9;
+        const NOV = 10;
+        const DEZ = 11;
+
+        const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
+
+        const vaccinationData = [
+            // Datum, vollständig geimpft Prozent, Absolut, verabreichte Dosen
+            [ new Date(2021, FEB, 14), 1.18, 102390, 542848 ],
+            [ new Date(2021, FEB, 15), 1.24, 107118, 525334 ],
+            [ new Date(2021, FEB, 16), 1.30, 112527, 563073 ],
+            [ new Date(2021, FEB, 17), 1.60, 138016, 614066 ],
+            [ new Date(2021, FEB, 18), 1.66, 143703, 625196 ],
+            [ new Date(2021, FEB, 19), 1.73, 149719, 635089 ],
+            [ new Date(2021, FEB, 20), 1.74, 150831, 636780 ],
+            [ new Date(2021, FEB, 21), 2.01, 173407, 675556 ],
+        ];
+
+        const vaccinationDataStatusDates = vaccinationData.map(function (row) { return toDateString(row[0]); });
+        const vaccinationDataPercent = vaccinationData.map(function (row) { return row[1]; });
+
+        const threshold = new Array(vaccinationDataPercent.length).fill(70);
+        const ctx = document.getElementById('vaccinationChart').getContext('2d');
+        const vaccinationChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: vaccinationDataStatusDates,
+                datasets: [
+                    { label: 'vollständig geimpft', data: vaccinationDataPercent, borderColor: '#dc1c13', borderWidth: 3, fill: false },
+                    { label: 'Herdenimmunität (70%)', data: threshold, borderColor: '#69f0ae', borderWidth: 1, fill: false }
+                ]
+            },
+            options: {
+                title: {
+                    display: false
+                },
+                legend: {
+                    display: true
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            suggestedMax: 100
+                        }
+                    }]
+                },
+                responsive: true,
+            }
+        });
+    </script>
+</div>
+<div class="w3-content w3-center stand">
+    <div>Diese Hochrechnung basiert auf folgenden Daten</div>
 </div>
 <div class="w3-container">
     <table class="w3-content">
@@ -145,52 +216,12 @@
             <td>mindestens zu impfende Personen (Annahme: Herdenimmunität bei 70%)</td>
         </tr>
         <tr>
-            <th id="requiredVaccineDoses"></th>
-            <td>mindestens benötigte Impfdosen (zwei je Person)</td>
-        </tr>
-        <tr>
-            <th id="receivedVaccineDoses"></th>
-            <td>erhaltene Impfdosen (BAG, Stand: <span class="statusDate"></span>)</td>
-        </tr>
-        <tr>
-            <th id="deliveredVaccineDoses"></th>
-            <td>ausgelieferte Impfdosen (BAG, Stand: <span class="statusDate"></span>)</td>
-        </tr>
-        <tr>
-            <th id="administeredVaccineDoses"></th>
-            <td>verabreichte Impfdosen (BAG, Stand: <span class="statusDate"></span>)</td>
-        </tr>
-        <tr>
             <th id="vaccinatedPersons"></th>
-            <td>vollständig geimpfte Personen (BAG, Stand: <span class="statusDate"></span>)</td>
-        </tr>
-        <tr>
-            <th id="stillToBeVaccinated"></th>
-            <td>noch zu impfende Personen</td>
-        </tr>
-        <tr>
-            <th id="stillRequiredVaccineDoses"></th>
-            <td>noch benötigte Impfdosen</td>
-        </tr>
-        <tr>
-            <th id="missingVaccineDoses"></th>
-            <td>noch fehlende Impfdosen</td>
-        </tr>
-        <tr>
-            <th id="vaccinatedProgress"></th>
-            <td>verabreichte Impfdosen pro 100 Einweohner:innen (BAG, Stand: <span class="statusDate"></span>)</td>
-        </tr>
-        <tr>
-            <th id="vaccinationRateAll"></th>
-            <td>Impfungen im Schnitt pro Tag seit Impfbeginn (<span id="vaccinationStart"></span>)</td>
+            <td>bisher vollständig geimpfte Personen (BAG, Stand: <span class="statusDate"></span>)</td>
         </tr>
         <tr>
             <th id="vaccinationRateLast"></th>
-            <td>Impfungen im Schnitt pro Tag der letzten <span class="vaccinationRateDays"></span> Tage ***</td>
-        </tr>
-        <tr>
-            <th id="vaccinationRange"></th>
-            <td>Tage, bis der Impfstoff ausgeht ****</td>
+            <td>durchgeführte Impfungen im Schnitt pro Tag der letzten <span class="vaccinationRateDays"></span> Tage **</td>
         </tr>
     </table>
     <div class="w3-content w3-center links">
@@ -204,41 +235,19 @@
                 <th>*</th>
                 <td>
                     Das Datum errechnet sich aus der Zeitspanne, die, bemessen an der aktuellen Impfrate der letzten
-                    <span class="vaccinationRateDays"></span> Tage ***, benötigt wird, um eine
-                    Herdenimmunität von 70% der Gesamtbevölkerung Schweiz und Liechtenstein  (BFS, Stand 2019) zu erreichen;
-                    abzüglich jener Personen, welche die zweite Impfdosis bereits bekommen haben. Die Anzahl der Personen errechnet
-                    sich dabei aus der Anzahl der verabreichten Impfdosen und der Annahme, dass für eine erfolgreiche Immunisierung
-                    mittels des aktuell verwendeten Impfstoffes zwei Impfungen pro Person nötig sind. Die Anzahl der verabreichten
-                    Impfdosen stammt aus der offiziellen Mitteilung des BAG, Stand <span class="statusDate"></span>.
+                    <span class="vaccinationRateDays"></span> Tage, benötigt wird, um eine Herdenimmunität von 70%
+                    der Gesamtbevölkerung Schweiz und Liechtenstein (BFS, Stand 2019) zu erreichen; abzüglich jener
+                    Personen, welche die zweite Impfdosis bereits bekommen haben (BAG, Stand <span class="statusDate"></span>).
                     100% entspricht der Gesamtbevölkerung Schweiz und Liechtenstein (BFS, Stand 2019).
-                    Der gelbe Strich symbolisiert die vom BAG, Stand <span class="statusDate"></span>, kommunizierten verabreichten
-                    Impfdosen pro 100 Einwohner:innen. Achtung: Für eine korrekte Immunisierung sind mit dem aktuell verwendeten
-                    Impfstoff zwei Impfdosen notwendig!
                 </td>
             </tr>
             <tr>
                 <th>**</th>
                 <td>
-                    Die Immunitätsrate errechnet sich aus der Anzahl der vollständig geimpften Personen (BAG, Stand
-                    <span class="statusDate"></span>) im Verhältnis zur Einwohnerzahl. 100 % entspricht der Gesamtbevölkerung
-                    Schweiz und Liechtenstein (BFS, Stand 2019).
-                </td>
-            </tr>
-            <tr>
-                <th>***</th>
-                <td>
                     Die Impfrate der letzten <span class="vaccinationRateDays"></span> Tage errechnet sich aus der Differenz der
                     Anzahl der verabreichten Impfungen des BAG der vom <span class="statusDateBefore"></span> und
-                    <span class="statusDate"></span>. Achtung: Für eine korrekte Immunisierung sind mit dem aktuell verwendeten
-                    Impfstoff zwei Impfdosen notwendig!
-                </td>
-            </tr>
-            <tr>
-                <th>****</th>
-                <td>
-                    Hochrechnung, wie lange die ausgelieferten Impfdosen (BAG, Stand <span class="statusDate"></span>) bei gleichbleibender
-                    Impfgeschwindigkeit (Durchschnittswert der letzten <span class="vaccinationRateDays"></span> Tage) voraussichtlich
-                    noch reichen.
+                    <span class="statusDate"></span> gemeldeten Daten. Achtung: Für eine korrekte Immunisierung sind mit dem
+                    aktuell verwendeten Impfstoff zwei Impfdosen notwendig!
                 </td>
             </tr>
         </table>
@@ -264,12 +273,6 @@
         return ["hsl(",hue,",70%,",light,"%)"].join("");
     }
 
-    function toDateString(date) {
-        return ('0' + date.getDate()).slice(-2) + '.'
-            + ('0' + (date.getMonth()+1)).slice(-2) + '.'
-            + date.getFullYear();
-    }
-
     function toDurationString(numberOfDays) {
         let years = 0;
         while (numberOfDays >= 365) {
@@ -291,71 +294,24 @@
         return years + " " + yearText + ", " + months + " " + monthText + ", " + days + " " + dayText;
     }
 
-    function toNumberString(number) {
-        return typeof number == 'number' ? number.toLocaleString("de-CH") : number;
-    }
+    const statusDate = vaccinationData[vaccinationData.length - 1][0];
+    const administeredVaccineDoses = vaccinationData[vaccinationData.length - 1][3];
 
-    const JAN = 0;
-    const FEB = 1;
-    const MAR = 2;
-    const APR = 3;
-    const MAI = 4;
-    const JUN = 5
-    const JUL = 6;
-    const AUG = 7;
-    const SEP = 8;
-    const OKT = 9;
-    const NOV = 10;
-    const DEZ = 11;
-
-    const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
-
-    // ############################################
-    // # Diese sechs Zeilen sind zu aktualisieren #
-    // ############################################
-    const statusDate = new Date(2021, FEB, 21);
-    const receivedVaccineDoses = 884025;
-    const deliveredVaccineDoses = 866425;
-    const administeredVaccineDoses = 675556;
-    const vaccinatedPersons = 173407;
-    const vaccinatedProgress = 7.81;
-
-    // Ab hier sind die histprischen Daten vom Termin vier Wochen vorher zu aktivieren
-    // const statusDateBefore = new Date(2021, FEB, 17);
-    // const administeredVaccineDosesBefore = 613346;
-    // const vaccinatedPersonsBefore = 137734;
-    // const statusDateBefore = new Date(2021, FEB, 14);
-    // const administeredVaccineDosesBefore = 541231;
-    // const statusDateBefore = new Date(2021, FEB, 10);
-    // const administeredVaccineDosesBefore = 482423;
-    // const statusDateBefore = new Date(2021, FEB, 7);
-    // const administeredVaccineDosesBefore = 413698;
-    // const statusDateBefore = new Date(2021, FEB, 3);
-    // const administeredVaccineDosesBefore = 369085;
-    // const statusDateBefore = new Date(2021, JAN, 31);
-    // const administeredVaccineDosesBefore = 315033;
-    // const statusDateBefore = new Date(2021, JAN, 27);
-    // const administeredVaccineDosesBefore = 262081;
-    const statusDateBefore = new Date(2021, JAN, 24);
-    const administeredVaccineDosesBefore = 197368;
-
-    // Ab hier nichts mehr ändern...
     const residents = 8606033 + 38650; // Schweiz und Liechtenstein (Stand 2019, Bundesamt für Statistik)
     const toBeVaccinated = Math.round(residents * .7);
-    const requiredVaccineDoses = toBeVaccinated * 2;
+    const vaccinatedPersons = vaccinationData[vaccinationData.length - 1][2];
     const stillToBeVaccinated = toBeVaccinated - vaccinatedPersons;
     const stillRequiredVaccineDoses = stillToBeVaccinated * 2;
-    const missingVaccineDoses = requiredVaccineDoses - receivedVaccineDoses;
-    const vaccinationStart = new Date(2020, DEZ, 23);
-    const daysSinceVaccinationStart = Math.round(Math.abs((vaccinationStart - statusDate) / oneDay));
-    const vaccinationRateAll = Math.round(administeredVaccineDoses / daysSinceVaccinationStart);
+
+    const statusDateBefore = vaccinationData[vaccinationData.length - 8][0];
+    const administeredVaccineDosesBefore = vaccinationData[vaccinationData.length - 8][3];
     const vaccinationRateDays = Math.round(Math.abs((statusDateBefore - statusDate) / oneDay));
     const vaccinationRateLast = Math.round((administeredVaccineDoses - administeredVaccineDosesBefore) / vaccinationRateDays);
-    const immunePercent = (vaccinatedPersons / residents) * 100;
+
+    const immunePercent = vaccinationData[vaccinationData.length - 1][1];
     const deviation = Math.ceil(Math.abs(Date.now() - statusDate) / oneDay) - 1;
     const daysToGo = Math.round(stillRequiredVaccineDoses / vaccinationRateLast) - deviation;
     const endDate = new Date().setDate(new Date().getDate() + daysToGo);
-    const vaccinationRange = Math.round((deliveredVaccineDoses - administeredVaccineDoses) / vaccinationRateLast - deviation);
 
     document.getElementById("endDate").innerHTML = toDateString(new Date(endDate));
     document.getElementById("daysToGo").innerHTML = toNumberString(daysToGo);
@@ -364,25 +320,11 @@
     document.getElementById("progressBar").style.backgroundColor = getColor(immunePercent * .01, 50);
     document.getElementById("progressBar").style.width = (immunePercent) + "%";
     document.getElementById("progressBar").innerHTML = (immunePercent).toFixed(2) + "%";
-    document.getElementById("vaccinatedProgressBar").style.width = (vaccinatedProgress) + "%";
-    document.getElementById("vaccinatedProgressBar").innerHTML = (vaccinatedProgress).toFixed(2) + "%";
-    document.getElementById("vaccinatedBar").style.left = (vaccinatedProgress).toFixed(2) + "%";
 
     document.getElementById("residents").innerHTML = toNumberString(residents);
     document.getElementById("toBeVaccinated").innerHTML = toNumberString(toBeVaccinated);
-    document.getElementById("requiredVaccineDoses").innerHTML = toNumberString(requiredVaccineDoses);
-    document.getElementById("receivedVaccineDoses").innerHTML = toNumberString(receivedVaccineDoses);
-    document.getElementById("deliveredVaccineDoses").innerHTML = toNumberString(deliveredVaccineDoses);
-    document.getElementById("administeredVaccineDoses").innerHTML = toNumberString(administeredVaccineDoses);
     document.getElementById("vaccinatedPersons").innerHTML = toNumberString(vaccinatedPersons);
-    document.getElementById("stillToBeVaccinated").innerHTML = toNumberString(stillToBeVaccinated);
-    document.getElementById("stillRequiredVaccineDoses").innerHTML = toNumberString(stillRequiredVaccineDoses);
-    document.getElementById("missingVaccineDoses").innerHTML = toNumberString(missingVaccineDoses);
-    document.getElementById("vaccinatedProgress").innerHTML = toNumberString(vaccinatedProgress);
-    document.getElementById("vaccinationRateAll").innerHTML = toNumberString(vaccinationRateAll);
-    document.getElementById("vaccinationStart").innerHTML = toDateString(vaccinationStart);
     document.getElementById("vaccinationRateLast").innerHTML = toNumberString(vaccinationRateLast);
-    document.getElementById("vaccinationRange").innerHTML = toNumberString(vaccinationRange);
 
     const vaccinationRateDaysElements = document.getElementsByClassName("vaccinationRateDays");
     for (let i = 0; i < vaccinationRateDaysElements.length; i++) {
@@ -391,7 +333,7 @@
 
     const statusDateElements = document.getElementsByClassName("statusDate");
     for (let i = 0; i < statusDateElements.length; i++) {
-        statusDateElements[i].innerHTML = toDateString(statusDate);
+        statusDateElements[i].innerHTML = vaccinationDataStatusDates[vaccinationDataStatusDates.length - 1];
     }
 
     const statusDateBeforeElements = document.getElementsByClassName("statusDateBefore");
