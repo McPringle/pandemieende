@@ -128,7 +128,7 @@ function updateTable(vaccinationDataHistory, lastUpdate) {
 
 function loadVaccineData() {
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'data.json', true);
+    xhr.open('GET', 'data.json?t=' + new Date().getTime(), true);
     xhr.responseType = 'json';
     xhr.onload = function() {
         const status = xhr.status;
