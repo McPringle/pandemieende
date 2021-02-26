@@ -62,8 +62,32 @@
       "vaccinationRate" : 2.01,
       "vaccinatedPersons" : 173407,
       "administeredVaccineDoses" : 675556,
-      "laboratoryConfirmedCases" : 550422,
-      "laboratoryConfirmedDeaths" : 9244
+      "laboratoryConfirmedCases" : 550429,
+      "laboratoryConfirmedDeaths" : 9248
+    },
+    {
+      "statusDate" : "2021-02-22",
+      "vaccinationRate" : 2.07,
+      "vaccinatedPersons" : 178728,
+      "administeredVaccineDoses" : 684104,
+      "laboratoryConfirmedCases" : 551842,
+      "laboratoryConfirmedDeaths" : 9254
+    },
+    {
+      "statusDate" : "2021-02-23",
+      "vaccinationRate" : 2.14,
+      "vaccinatedPersons" : 184905,
+      "administeredVaccineDoses" : 694120,
+      "laboratoryConfirmedCases" : 553113,
+      "laboratoryConfirmedDeaths" : 9261
+    },
+    {
+      "statusDate" : "2021-02-24",
+      "vaccinationRate" : 2.56,
+      "vaccinatedPersons" : 221259,
+      "administeredVaccineDoses" : 751009,
+      "laboratoryConfirmedCases" : 554172,
+      "laboratoryConfirmedDeaths" : 9266
     }
   ]
 }
