@@ -33,7 +33,7 @@
     <hr />
 </div>
 <div class="w3-content w3-center stand">
-    <div>Entwicklung der Immunitätsrate</div>
+    <div>Entwicklung der Immunitätsrate **</div>
     <canvas id="vaccinationChart"></canvas>
 </div>
 <div class="w3-content w3-center stand">
@@ -55,7 +55,7 @@
         </tr>
         <tr>
             <th id="vaccinationRateLast"></th>
-            <td>durchgeführte Impfungen im Schnitt pro Tag der letzten <span class="vaccinationRateDays"></span> Tage **</td>
+            <td>durchgeführte Impfungen im Schnitt pro Tag der letzten <span class="vaccinationRateDays"></span> Tage ***</td>
         </tr>
         <tr>
             <th id="laboratoryConfirmedCases"></th>
@@ -90,6 +90,17 @@
             </tr>
             <tr>
                 <th>**</th>
+                <td>
+                    Das Diagramm enthält drei verschiedene Werte, alle in Prozent der Einwohner:innen. Der rote Wert zeigt den
+                    Anteil der bereits vollständig geimpften Personen (BAG, Stand <span class="statusDate"></span>). Der
+                    orangene Wert zeigt den Anteil der vollständig geimpften Personen zuzüglich der Personen mit natürlicher
+                    Immunität nach Erkrankung (laborbestätigte Fälle) abzüglich der verstorbenen Personen (BAG, Stand
+                    <span class="statusDate"></span>). Der grüne Wert symbolisiert die angenommene Herdenimmunität von 70% der
+                    Einwohner:innen.
+                </td>
+            </tr>
+            <tr>
+                <th>***</th>
                 <td>
                     Die Impfrate der letzten <span class="vaccinationRateDays"></span> Tage errechnet sich aus der Differenz der
                     Anzahl der verabreichten Impfungen des BAG der vom <span class="statusDateBefore"></span> und
