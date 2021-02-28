@@ -9,6 +9,8 @@ body { font-family: Roboto, sans-serif; }
 .links { padding: 32px; }
 .stand { padding-bottom: 16px; }
 .fngroup { padding-top: 32px; }
+.updateinfo { padding-top: 32px;
+}
 
 #forkme {
     position: absolute;
