@@ -1,6 +1,7 @@
 const oneHour = 60 * 60 * 1000; // minutes * seconds * milliseconds
 const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
 const residents = 8606033 + 38650; // Schweiz und Liechtenstein (Stand 2019, Bundesamt für Statistik)
+const vaccinationRateDays = 14; // number of days used to calculate the average vaccination rate
 
 function toDate(dateString) {
     return new Date(dateString + 'T00:00:00.000Z');
@@ -87,7 +88,6 @@ function updateTable(vaccinationDataHistory, lastUpdate) {
     const stillToBeVaccinated = toBeVaccinated - vaccinatedPersons;
     const stillRequiredVaccineDoses = stillToBeVaccinated * 2;
 
-    const vaccinationRateDays = 7;
     const vaccinationRateDaysIndex = vaccinationRateDays + 1;
     const administeredVaccineDosesBefore = vaccinationDataHistory[vaccinationDataHistory.length - vaccinationRateDaysIndex]['administeredVaccineDoses'];
     const vaccinationRateLast = Math.round((administeredVaccineDoses - administeredVaccineDosesBefore) / vaccinationRateDays);
