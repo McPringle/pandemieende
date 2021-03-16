@@ -1,5 +1,5 @@
 {
-  "lastUpdate" : "2021-03-12",
+  "lastUpdate" : "2021-03-16",
   "history" : [
     {
       "statusDate" : "2021-02-14",
@@ -200,6 +200,38 @@
       "administeredVaccineDoses" : 1038540,
       "laboratoryConfirmedCases" : 569717,
       "laboratoryConfirmedDeaths" : 9410
+    },
+    {
+      "statusDate" : "2021-03-11",
+      "vaccinationRate" : 4.32,
+      "vaccinatedPersons" : 373806,
+      "administeredVaccineDoses" : 1051011,
+      "laboratoryConfirmedCases" : 571085,
+      "laboratoryConfirmedDeaths" : 9430
+    },
+    {
+      "statusDate" : "2021-03-12",
+      "vaccinationRate" : 4.38,
+      "vaccinatedPersons" : 378825,
+      "administeredVaccineDoses" : 1062956,
+      "laboratoryConfirmedCases" : 572427,
+      "laboratoryConfirmedDeaths" : 9435
+    },
+    {
+      "statusDate" : "2021-03-13",
+      "vaccinationRate" : 4.39,
+      "vaccinatedPersons" : 379725,
+      "administeredVaccineDoses" : 1064887,
+      "laboratoryConfirmedCases" : 573348,
+      "laboratoryConfirmedDeaths" : 9443
+    },
+    {
+      "statusDate" : "2021-03-14",
+      "vaccinationRate" : 4.57,
+      "vaccinatedPersons" : 394926,
+      "administeredVaccineDoses" : 1101753,
+      "laboratoryConfirmedCases" : 574023,
+      "laboratoryConfirmedDeaths" : 9447
     }
   ]
 }
