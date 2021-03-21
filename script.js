@@ -46,7 +46,7 @@ function updateChart(vaccinationDataHistory) {
     const vaccinationStatusDates = vaccinationDataHistory.map(function (row) { return row['statusDate']; });
     const vaccinationDataPercent = vaccinationDataHistory.map(function (row) { return row['vaccinationRate']; });
     const vaccinationDataPercentImmune = vaccinationDataHistory.map(function (row) { return toPercent(row['vaccinatedPersons'] + row['laboratoryConfirmedCases'] - row['laboratoryConfirmedDeaths']); });
-    const threshold = new Array(vaccinationDataPercent.length).fill(70);
+    const threshold = new Array(vaccinationDataPercent.length).fill(80);
     const ctx = document.getElementById('vaccinationChart').getContext('2d');
     new Chart(ctx, {
         type: 'line',
@@ -55,7 +55,7 @@ function updateChart(vaccinationDataHistory) {
             datasets: [
                 { label: 'vollständig geimpfte Personen', data: vaccinationDataPercent, borderColor: '#dc1c13', borderWidth: 3, fill: false },
                 { label: 'vollständig geimpfte & gesundete Personen', data: vaccinationDataPercentImmune, borderColor: '#f9842c', borderWidth: 3, fill: false },
-                { label: 'nötige Herdenimmunität (70%)', data: threshold, borderColor: '#69f0ae', borderWidth: 1, fill: false }
+                { label: 'nötige Herdenimmunität (80%)', data: threshold, borderColor: '#69f0ae', borderWidth: 1, fill: false }
             ]
         },
         options: {
@@ -83,7 +83,7 @@ function updateTable(vaccinationDataHistory, lastUpdate) {
     const statusDate = toDate(vaccinationDataHistory[vaccinationDataHistory.length - 1]['statusDate']);
     const administeredVaccineDoses = vaccinationDataHistory[vaccinationDataHistory.length - 1]['administeredVaccineDoses'];
 
-    const toBeVaccinated = Math.round(residents * .7);
+    const toBeVaccinated = Math.round(residents * .8);
     const vaccinatedPersons = vaccinationDataHistory[vaccinationDataHistory.length - 1]['vaccinatedPersons'];
     const stillToBeVaccinated = toBeVaccinated - vaccinatedPersons;
     const stillRequiredVaccineDoses = stillToBeVaccinated * 2;
