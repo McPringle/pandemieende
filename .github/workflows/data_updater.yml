@@ -2,7 +2,7 @@ name: basic test nightly
 
 on:
   schedule:
-    - cron: '*/5 * * * *' # TODO update this to twice a day or so
+    - cron: '*/2 * * * *' # TODO update this to twice a day or so
 
 jobs:
   update:
@@ -34,4 +34,4 @@ jobs:
         with:
           file-path: data.json
           commit-msg: AUTOMATIC data.json UPDATE COMMIT
-          github-token: ${{ secrets.GH_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
