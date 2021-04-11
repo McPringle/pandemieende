@@ -2,7 +2,7 @@ name: Run periodically.
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '* * * * *'
 
 jobs:
   build:
