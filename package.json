@@ -1,0 +1,23 @@
+{
+  "name": "pandemieende",
+  "version": "1.0.0",
+  "description": "= Pandemieende Schweiz und Liechtenstein Marcus Fihlon <marcus@fihlon.swiss>",
+  "main": " ",
+  "scripts": {
+    "update": "node helper_scripts/updater.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nagyadam2092/pandemieende.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nagyadam2092/pandemieende/issues"
+  },
+  "homepage": "https://github.com/nagyadam2092/pandemieende#readme",
+  "dependencies": {
+    "papaparse": "^5.3.0",
+    "request": "^2.88.2"
+  }
+}

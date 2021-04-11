@@ -30,3 +30,5 @@ $RECYCLE.BIN
 [Dd]esktop.ini
 Thumbs.db
 *.lnk
+
+node_modules
