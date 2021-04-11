@@ -31,7 +31,7 @@ jobs:
 
       - name: Update data.json on GitHub
         uses: test-room-7/action-update-file@v1.5.0
-          with:
-            file-path: data.json
-            commit-msg: AUTOMATIC data.json UPDATE COMMIT
-            github-token: ${{ secrets.GH_TOKEN }}
+        with:
+          file-path: data.json
+          commit-msg: AUTOMATIC data.json UPDATE COMMIT
+          github-token: ${{ secrets.GH_TOKEN }}
