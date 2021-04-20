@@ -35,7 +35,11 @@ function toDurationString(numberOfDays) {
     const days = numberOfDays;
     const dayText = days === 1 ? "Tag" : "Tage";
 
-    return years + " " + yearText + ", " + months + " " + monthText + ", " + days + " " + dayText;
+    let text = years > 0 ? years + " " + yearText + ", " : "";
+    text += years + months > 0 ? months + " " + monthText + ", " : "";
+    text +=  days + " " + dayText;
+
+    return text;
 }
 
 function updateChart(vaccinationDataHistory) {
