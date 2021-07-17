@@ -1,5 +1,5 @@
 {
-  "lastUpdate" : "2021-07-13",
+  "lastUpdate" : "2021-07-17",
   "history" : [
     {
       "statusDate" : "2021-02-14",
@@ -888,6 +888,30 @@
       "vaccinationRate" : 41.71,
       "vaccinatedPersons" : 3605836,
       "administeredVaccineDoses" : 8169730
+    },
+    {
+      "statusDate" : "2021-07-12",
+      "vaccinationRate" : 41.54,
+      "vaccinatedPersons" : 3591192,
+      "administeredVaccineDoses" : 8234782
+    },
+    {
+      "statusDate" : "2021-07-13",
+      "vaccinationRate" : 42.17,
+      "vaccinatedPersons" : 3645915,
+      "administeredVaccineDoses" : 8303639
+    },
+    {
+      "statusDate" : "2021-07-14",
+      "vaccinationRate" : 42.72,
+      "vaccinatedPersons" : 3693118,
+      "administeredVaccineDoses" : 8365138
+    },
+    {
+      "statusDate" : "2021-07-15",
+      "vaccinationRate" : 43.27,
+      "vaccinatedPersons" : 3740195,
+      "administeredVaccineDoses" : 8425758
     }
   ]
 }
