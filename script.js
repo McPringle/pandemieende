@@ -101,6 +101,7 @@ function updateTable(vaccinationDataHistory, lastUpdate) {
     document.getElementById("residents").innerHTML = toNumberString(residents);
     document.getElementById("toBeVaccinated").innerHTML = toNumberString(toBeVaccinated);
     document.getElementById("vaccinatedPersons").innerHTML = toNumberString(vaccinatedPersons);
+    document.getElementById("stillToBeVaccinated").innerHTML = toNumberString(stillToBeVaccinated);
     document.getElementById("vaccinationRateLast").innerHTML = toNumberString(vaccinationRateLast);
 
     const vaccinationRateDaysElements = document.getElementsByClassName("vaccinationRateDays");
