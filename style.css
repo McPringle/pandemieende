@@ -36,6 +36,7 @@ table {
 
 table.footnote {
     border: none;
+    width: 580px;
 }
 
 th {

@@ -79,30 +79,20 @@ function updateChart(vaccinationDataHistory) {
 function updateTable(vaccinationDataHistory, lastUpdate) {
 
     const statusDate = toDate(vaccinationDataHistory[vaccinationDataHistory.length - 1]['statusDate']);
-    const administeredVaccineDoses = vaccinationDataHistory[vaccinationDataHistory.length - 1]['administeredVaccineDoses'];
-
-    const toBeVaccinated = Math.round(residents * .8);
-    const vaccinatedPersons = vaccinationDataHistory[vaccinationDataHistory.length - 1]['vaccinatedPersons'];
-    const stillToBeVaccinated = toBeVaccinated - vaccinatedPersons;
-    const stillRequiredVaccineDoses = stillToBeVaccinated * 2;
-
     const vaccinationRateDaysIndex = vaccinationRateDays + 1;
-    const administeredVaccineDosesBefore = vaccinationDataHistory[vaccinationDataHistory.length - vaccinationRateDaysIndex]['administeredVaccineDoses'];
-    const vaccinationRateLast = Math.round((administeredVaccineDoses - administeredVaccineDosesBefore) / vaccinationRateDays);
-
+    const vaccinationRateBefore = vaccinationDataHistory[vaccinationDataHistory.length - vaccinationRateDaysIndex]['vaccinationRate'];
+    const vaccinationRateLast = vaccinationDataHistory[vaccinationDataHistory.length - 1]['vaccinationRate'];
+    const vaccinationRateDiff = 80 - vaccinationRateLast;
+    const vaccinationRatePerDay = (vaccinationRateLast - vaccinationRateBefore) / vaccinationRateDays;
     const deviation = Math.ceil(Math.abs(Date.now() - statusDate) / oneDay) - 1;
-    const daysToGo = Math.round(stillRequiredVaccineDoses / vaccinationRateLast) - deviation;
+    const daysToGo = Math.round((80 - vaccinationRateLast) / vaccinationRatePerDay) - deviation;
     const endDate = new Date().setDate(new Date().getDate() + daysToGo);
 
     document.getElementById("endDate").innerHTML = toDateString(new Date(endDate));
     document.getElementById("daysToGo").innerHTML = toNumberString(daysToGo);
     document.getElementById("daysToGoText").innerHTML = toDurationString(daysToGo);
-
-    document.getElementById("residents").innerHTML = toNumberString(residents);
-    document.getElementById("toBeVaccinated").innerHTML = toNumberString(toBeVaccinated);
-    document.getElementById("vaccinatedPersons").innerHTML = toNumberString(vaccinatedPersons);
-    document.getElementById("stillToBeVaccinated").innerHTML = toNumberString(stillToBeVaccinated);
-    document.getElementById("vaccinationRateLast").innerHTML = toNumberString(vaccinationRateLast);
+    document.getElementById("vaccinationRateLast").innerHTML = toNumberString(vaccinationRateLast) + " %";
+    document.getElementById("vaccinationRateDiff").innerHTML = toNumberString(vaccinationRateDiff) + " %";
 
     const vaccinationRateDaysElements = document.getElementsByClassName("vaccinationRateDays");
     for (let i = 0; i < vaccinationRateDaysElements.length; i++) {
@@ -112,11 +102,6 @@ function updateTable(vaccinationDataHistory, lastUpdate) {
     const statusDateElements = document.getElementsByClassName("statusDate");
     for (let i = 0; i < statusDateElements.length; i++) {
         statusDateElements[i].innerHTML = vaccinationDataHistory[vaccinationDataHistory.length - 1]['statusDate'];
-    }
-
-    const statusDateBeforeElements = document.getElementsByClassName("statusDateBefore");
-    for (let i = 0; i < statusDateBeforeElements.length; i++) {
-        statusDateBeforeElements[i].innerHTML = vaccinationDataHistory[vaccinationDataHistory.length - vaccinationRateDaysIndex]['statusDate'];
     }
 
     document.getElementById("lastUpdate").innerHTML = lastUpdate;

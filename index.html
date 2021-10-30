@@ -50,7 +50,7 @@
     <hr />
 </div>
 <div class="w3-content w3-center stand">
-    <div>Entwicklung der Immunitätsrate **</div>
+    <div>Entwicklung der Impfrate **</div>
     <canvas id="vaccinationChart"></canvas>
 </div>
 <div class="w3-content w3-center stand">
@@ -59,24 +59,16 @@
 <div class="w3-container">
     <table class="w3-content">
         <tr>
-            <th id="residents"></th>
-            <td>Einwohner:innen Schweiz (BFS, Stand: 2020) und Liechtenstein (AS, Stand: 2021)</td>
-        </tr>
-        <tr>
-            <th id="toBeVaccinated"></th>
-            <td>mindestens zu impfende Personen (Annahme: Herdenimmunität bei 80%)</td>
-        </tr>
-        <tr>
-            <th id="vaccinatedPersons"></th>
-            <td>bisher vollständig geimpfte Personen (BAG, Stand: <span class="statusDate"></span>)</td>
-        </tr>
-        <tr>
-            <th id="stillToBeVaccinated"></th>
-            <td>noch zu impfende Personen (Annahme: Herdenimmunität bei 80%)</td>
+            <th>80.00 %</th>
+            <td>der Gesamtbevölkerung müssen für Herdenimmunität geimpft werden (Annahme)</td>
         </tr>
         <tr>
             <th id="vaccinationRateLast"></th>
-            <td>durchgeführte Impfungen im Schnitt pro Tag der letzten <span class="vaccinationRateDays"></span> Tage ***</td>
+            <td>der Gesamtbevölkerung sind vollständig geimpft (BAG, Stand: <span class="statusDate"></span>)</td>
+        </tr>
+        <tr>
+            <th id="vaccinationRateDiff"></th>
+            <td>der Gesamtbevölkerung sind noch zu impfen, um die Herdenimmunität zu erreichen</td>
         </tr>
     </table>
     <div class="w3-content w3-center updateinfo">
@@ -95,25 +87,15 @@
                     Das Datum errechnet sich aus der Zeitspanne, die, bemessen an der aktuellen Impfrate der letzten
                     <span class="vaccinationRateDays"></span> Tage, benötigt wird, um eine
                     <a href="https://www.vfa.de/de/arzneimittel-forschung/impfen/herdenimmunitaet" target="_blank">
-                    Herdenimmunität von 80%</a> der Einwohner:innen zu erreichen; abzüglich jener Personen, welche die
-                    zweite Impfdosis bereits bekommen haben (BAG, Stand <span class="statusDate"></span>). 100%
-                    entspricht der Gesamtbevölkerung Schweiz (BFS, Stand: 2020) und Liechtenstein (AS, Stand: 2021).
+                    Herdenimmunität von 80%</a> der Gesamtbevölkerung zu erreichen.
                 </td>
             </tr>
             <tr>
                 <th>**</th>
                 <td>
-                    Das Diagramm enthält zwei verschiedene Werte, beide in Prozent der Einwohner:innen. Der rote Wert zeigt den
+                    Das Diagramm enthält zwei verschiedene Werte, beide in Prozent der Gesamtbevölkerung. Der rote Wert zeigt den
                     Anteil der bereits vollständig geimpften Personen (BAG, Stand <span class="statusDate"></span>). Der grüne
-                    Wert symbolisiert die angenommene Herdenimmunität von 80% der Einwohner:innen.
-                </td>
-            </tr>
-            <tr>
-                <th>***</th>
-                <td>
-                    Die Impfrate der letzten <span class="vaccinationRateDays"></span> Tage errechnet sich aus der Differenz der
-                    Anzahl der verabreichten Impfungen des BAG der vom <span class="statusDateBefore"></span> und
-                    <span class="statusDate"></span> gemeldeten Daten.
+                    Wert symbolisiert die angenommene Herdenimmunität von 80% der Gesamtbevölkerung.
                 </td>
             </tr>
         </table>
@@ -128,7 +110,7 @@
 <footer class="footer w3-white w3-center">
     <div>Made with <span style="color: red">&#10084;</span> by "McPringle"</div>
     <div>
-        <span>Datenquellen: <a href="https://www.bfs.admin.ch/bfs/de/home.html">BFS</a>, <a href="https://www.llv.li/inhalt/11480/amtsstellen/amt-fur-statistik">AS</a>, <a href="https://www.bag.admin.ch/bag/de/home.html">BAG</a></span> | <span><a href="impressum.html">Impressum</a></span> | <span>Alle Angaben ohne Gewähr</span>
+        <span>Datenquelle: <a href="https://www.bag.admin.ch/bag/de/home.html">Bundesamt für Gesundheit (BAG)</a></span> | <span><a href="impressum.html">Impressum</a></span> | <span>Alle Angaben ohne Gewähr</span>
     </div>
 </footer>
 </body>
