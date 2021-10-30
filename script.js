@@ -1,6 +1,6 @@
 const oneHour = 60 * 60 * 1000; // minutes * seconds * milliseconds
 const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
-const residents = 8606033 + 38650; // Schweiz und Liechtenstein (Stand 2019, Bundesamt für Statistik)
+const residents = 8670300 + 38747; // Schweiz (Stand 2020, Bundesamt für Statistik) und Liechtenstein (Stand 2021, Amt für Statistik)
 const vaccinationRateDays = 14; // number of days used to calculate the average vaccination rate
 
 function toDate(dateString) {
