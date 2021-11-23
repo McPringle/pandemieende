@@ -42,12 +42,21 @@ function toDurationString(numberOfDays) {
     return text;
 }
 
-function updateChart(vaccinationDataHistory) {
+function updateCharts(vaccinationDataHistory) {
     const vaccinationStatusDates = vaccinationDataHistory.map(function (row) { return row['statusDate']; });
     const vaccinationDataPercent = vaccinationDataHistory.map(function (row) { return row['vaccinationRate']; });
+
+    let administeredVaccineDosesYesterday = 0;
+    const administeredVaccineDoses = vaccinationDataHistory.map(function (row) {
+        const administeredVaccineDosesToday = row['administeredVaccineDoses'];
+        const administeredVaccineDosesDiff = administeredVaccineDosesToday - administeredVaccineDosesYesterday;
+        administeredVaccineDosesYesterday = administeredVaccineDosesToday;
+        return administeredVaccineDosesDiff;
+    });
+
     const threshold = new Array(vaccinationDataPercent.length).fill(80);
-    const ctx = document.getElementById('vaccinationChart').getContext('2d');
-    new Chart(ctx, {
+    const vaccinationChart = document.getElementById('vaccinationChart').getContext('2d');
+    new Chart(vaccinationChart, {
         type: 'line',
         data: {
             labels: vaccinationStatusDates,
@@ -70,6 +79,25 @@ function updateChart(vaccinationDataHistory) {
                         suggestedMax: 100
                     }
                 }]
+            },
+            responsive: true,
+        }
+    });
+    const speedChart = document.getElementById('speedChart').getContext('2d');
+    new Chart(speedChart, {
+        type: 'line',
+        data: {
+            labels: vaccinationStatusDates,
+            datasets: [
+                { label: 'durchgeführte Impfungen pro Tag', data: administeredVaccineDoses, borderColor: 'blue', borderWidth: 1, fill: false }
+            ]
+        },
+        options: {
+            title: {
+                display: false
+            },
+            legend: {
+                display: true
             },
             responsive: true,
         }
@@ -115,7 +143,7 @@ function loadVaccineData() {
         const status = xhr.status;
         if (status === 200) {
             const vaccinationData = xhr.response;
-            updateChart(vaccinationData['history']);
+            updateCharts(vaccinationData['history']);
             updateTable(vaccinationData['history'], vaccinationData['lastUpdate']);
         } else {
             alert('Hoppla, ich konnte die Impfdaten nicht vom Server laden!\nFehlercode: ' + status);
